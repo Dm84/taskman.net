@@ -11,8 +11,8 @@ namespace taskman
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "endpoint/tasks",
+                defaults: new { controller = "Task" }
             );
         }
     }

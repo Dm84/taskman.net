@@ -7,9 +7,9 @@ using taskman.Models.domain;
 
 namespace taskman.Models.dao
 {
-    interface ITaskDao
+    public interface ITaskDao
     {
-        public IEnumerable<Task> list();
-        public void add();
+        IEnumerable<Task> list();
+        void add(Task task);
     }
 }

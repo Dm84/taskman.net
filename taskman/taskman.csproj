@@ -116,10 +116,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\FrontendController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\beans\BeanFactory.cs" />
     <Compile Include="Models\dao\ITaskDao.cs" />
     <Compile Include="Models\dao\TaskDaoEF.cs" />
     <Compile Include="Models\domain\Task.cs">
@@ -140,6 +142,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\service\TaskService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\service\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

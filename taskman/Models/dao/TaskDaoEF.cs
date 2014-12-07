@@ -9,7 +9,7 @@ namespace taskman.Models.dao
 {
 	public class TaskDaoEF : ITaskDao
 	{
-		IEnumerable<Task> list()
+		public IEnumerable<Task> list()
         {
 			using (TaskModelContainer context = new TaskModelContainer())
 			{
@@ -18,7 +18,7 @@ namespace taskman.Models.dao
 			}
 		}
 
-		void add(Task task)
+		public void add(Task task)
 		{
 			using (TaskModelContainer context = new TaskModelContainer())
 			{
