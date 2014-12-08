@@ -124,6 +124,9 @@
     <Compile Include="Models\beans\BeanFactory.cs" />
     <Compile Include="Models\dao\ITaskDao.cs" />
     <Compile Include="Models\dao\TaskDaoEF.cs" />
+    <Compile Include="Models\domain\Deadline.cs">
+      <DependentUpon>TaskModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\domain\Task.cs">
       <DependentUpon>TaskModel.tt</DependentUpon>
     </Compile>
@@ -150,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Models\domain\TaskModel.edmx.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -161,12 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Frontend\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Frontend\Frontend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

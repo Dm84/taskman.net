@@ -9,6 +9,10 @@ namespace taskman
     {
         public static void Register(HttpConfiguration config)
         {
+			config.Formatters.Remove(config.Formatters.XmlFormatter);
+			var json = config.Formatters.JsonFormatter;
+			json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;		
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "endpoint/tasks",

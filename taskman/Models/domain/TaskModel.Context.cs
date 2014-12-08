@@ -25,6 +25,6 @@ namespace taskman.Models.domain
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<Task> TaskSet { get; set; }
     }
 }

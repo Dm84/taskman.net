@@ -1,7 +1,10 @@
-﻿using System;
+﻿#define TRACE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Diagnostics;
 
 using taskman.Models.domain;
 
@@ -11,18 +14,17 @@ namespace taskman.Models.dao
 	{
 		public IEnumerable<Task> list()
         {
-			using (TaskModelContainer context = new TaskModelContainer())
-			{
-				IQueryable<Task> tasksQuery = from task in context.Tasks select task;
-				return tasksQuery;
+			using (var context = new TaskModelContainer())
+			{				
+				return context.TaskSet.ToList();
 			}
 		}
 
 		public void add(Task task)
 		{
-			using (TaskModelContainer context = new TaskModelContainer())
+			using (var context = new TaskModelContainer())
 			{
-				context.Tasks.Add(task);
+				context.TaskSet.Add(task);
 				context.SaveChanges();
 			}
 		}

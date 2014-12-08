@@ -10,13 +10,9 @@
 namespace taskman.Models.domain
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Task
+    public partial class Deadline
     {
-        public int id { get; set; }
-        public string description { get; set; }
-        public bool completed { get; set; }
         public System.DateTime deadline { get; set; }
     }
 }
