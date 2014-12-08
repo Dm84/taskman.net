@@ -28,7 +28,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" annotation:StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="completed" Type="Boolean" Nullable="false" />
           <Property Name="deadline" Type="DateTime" Nullable="false" Precision="3" />

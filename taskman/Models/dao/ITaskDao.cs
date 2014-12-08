@@ -10,7 +10,7 @@ namespace taskman.Models.dao
     public interface ITaskDao
     {
         IEnumerable<Task> list();
-        void add(Task task);
+        Task add(Task task);
 		void complete(int id);
     }
 

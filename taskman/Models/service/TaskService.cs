@@ -22,9 +22,9 @@ namespace taskman.Models.service
 			return dao.list();
 		}
 
-		public void add(Task task)
+		public Task add(Task task)
 		{
-			dao.add(task);
+			return dao.add(task);
 		}
 
 		public void complete(int id)

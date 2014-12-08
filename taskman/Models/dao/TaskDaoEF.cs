@@ -20,13 +20,17 @@ namespace taskman.Models.dao
 			}
 		}
 
-		public void add(Task task)
+		public Task add(Task task)
 		{
+			Task newTask = null;
+
 			using (var context = new TaskModelContainer())
 			{
-				context.TaskSet.Add(task);
-				context.SaveChanges();
+				newTask = context.TaskSet.Add(task);				
+				context.SaveChanges();				
 			}
+
+			return newTask;
 		}
 
 		public void complete(int id)
