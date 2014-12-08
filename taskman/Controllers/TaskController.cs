@@ -17,19 +17,24 @@ namespace taskman.Controllers
 			public int id;
 			public string description;
 			public long deadline;			
-			public Boolean completed;	
-		
+			public Boolean completed;
+
+			public FormattedTask()
+			{
+
+			}
+
 			public FormattedTask(Task src) {
-				Int64 timestamp = ((long) (src.deadline - (new DateTime(1970, 1, 1))).TotalSeconds) * 1000;
+				Int64 timestamp = (long) (src.deadline - (new DateTime(1970, 1, 1))).TotalSeconds * 1000L;
 				id = src.id; 
 				description = src.description;
 				deadline = timestamp; 
 				completed = src.completed;
 			}
 
-			public Task getDomainTask() {
-				DateTime deadline = (new DateTime(1970, 1, 1)).AddSeconds((double)(this.deadline / 1000L));
-				return new Task { id = id, description = description, deadline = deadline, completed = completed };
+			public static implicit operator Task(FormattedTask src) {
+				DateTime deadline = (new DateTime(1970, 1, 1)).AddSeconds((double)(src.deadline / 1000L));
+				return new Task { id = src.id, description = src.description, deadline = deadline, completed = src.completed };
 			}
 		}
 
@@ -50,10 +55,10 @@ namespace taskman.Controllers
         }
 
         // POST endpoint/tasks/
-		//[HttpPost]
-		//public void Post([FromBody] Task task)
-		//{
-		//	serv.add(task);
-		//}
+		[HttpPost]
+		public void Post([FromBody] FormattedTask task)
+		{
+			serv.add(task);
+		}
     }
 }

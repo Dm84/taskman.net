@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Frontend\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -195,6 +194,9 @@
       <LastGenOutput>TaskModel.cs</LastGenOutput>
       <DependentUpon>TaskModel.edmx</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Frontend\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
