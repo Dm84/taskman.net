@@ -25,6 +25,11 @@ namespace taskman.Models.service
 		public void add(Task task)
 		{
 			dao.add(task);
-		}		
+		}
+
+		public void complete(int id)
+		{
+			dao.complete(id);
+		}
 	}
 }

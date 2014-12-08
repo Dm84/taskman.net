@@ -14,7 +14,7 @@ namespace taskman.Controllers
     public class TaskController : ApiController
     {
 		public class FormattedTask {
-			public int id;
+			public Int32 id;
 			public string description;
 			public long deadline;			
 			public Boolean completed;
@@ -59,6 +59,12 @@ namespace taskman.Controllers
 		public void Post([FromBody] FormattedTask task)
 		{
 			serv.add(task);
+		}
+
+		// POST endpoint/tasks/5/complete 
+		public void Complete(int id)
+		{
+			serv.complete(id);
 		}
     }
 }

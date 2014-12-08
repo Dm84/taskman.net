@@ -28,5 +28,15 @@ namespace taskman.Models.dao
 				context.SaveChanges();
 			}
 		}
+
+		public void complete(int id)
+		{
+			using (var context = new TaskModelContainer())
+			{
+				Task task = (from Task in context.TaskSet where Task.id == id select Task).First();
+				task.completed = true;
+				context.SaveChanges();
+			}
+		}
 	}
 }

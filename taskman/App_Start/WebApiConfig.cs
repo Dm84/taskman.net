@@ -18,6 +18,13 @@ namespace taskman
                 routeTemplate: "endpoint/tasks",
                 defaults: new { controller = "Task" }
             );
+
+			config.Routes.MapHttpRoute(
+				name: "Complete",
+				routeTemplate: "endpoint/tasks/{id}/complete",
+				defaults: new { controller = "Task", action = "Complete" }
+			);
+
         }
     }
 }

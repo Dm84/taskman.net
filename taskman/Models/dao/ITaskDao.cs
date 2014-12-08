@@ -11,5 +11,7 @@ namespace taskman.Models.dao
     {
         IEnumerable<Task> list();
         void add(Task task);
+		void complete(int id);
     }
+
 }
