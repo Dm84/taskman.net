@@ -10,7 +10,10 @@ namespace taskman.Models.domain
 {
 	public class TaskContext : DbContext
 	{
-		public TaskContext() : base("TaskConnection") {}
+		public TaskContext() : base("TaskConnection") 
+		{
+			Database.SetInitializer<TaskContext>(new DropCreateDatabaseIfModelChanges<TaskContext>());
+		}
 
 		public DbSet<Task> TaskSet { get; set; }
 
