@@ -14,7 +14,7 @@ namespace taskman.Models.dao
 	{
 		public IEnumerable<Task> list()
         {
-			using (var context = new TaskModelContainer())
+			using (var context = new TaskContext())
 			{				
 				return context.TaskSet.ToList();
 			}
@@ -22,9 +22,9 @@ namespace taskman.Models.dao
 
 		public Task add(Task task)
 		{
-			Task newTask = null;
+			Task newTask = task;
 
-			using (var context = new TaskModelContainer())
+			using (var context = new TaskContext())
 			{
 				newTask = context.TaskSet.Add(task);				
 				context.SaveChanges();				
@@ -35,7 +35,7 @@ namespace taskman.Models.dao
 
 		public void complete(int id)
 		{
-			using (var context = new TaskModelContainer())
+			using (var context = new TaskContext())
 			{
 				Task task = (from Task in context.TaskSet where Task.id == id select Task).First();
 				task.completed = true;

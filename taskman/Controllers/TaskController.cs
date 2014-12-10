@@ -57,9 +57,8 @@ namespace taskman.Controllers
         // POST endpoint/tasks/
 		[HttpPost]
 		public FormattedTask Post([FromBody] FormattedTask task)
-		{
-			serv.add(task);
-			return new FormattedTask(task);
+		{			
+			return new FormattedTask(serv.add(task));
 		}
 
 		// POST endpoint/tasks/5/complete 
