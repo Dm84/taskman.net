@@ -3,6 +3,27 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	var Model = Backbone.Model.extend({			
 
 		state: 'todo',
+
+		defaults: {
+			description: '',
+			deadline: (new Date()).getTime(),
+			completed: false,
+		},	
+
+		validate: function (attrs) {
+
+			var errors = [];
+
+			if (typeof attrs.deadline !== 'number' || attrs.deadline < (new Date()).getTime()) {
+				errors.push('deadline');
+			}
+
+			if (typeof attrs.description !== 'string' || attrs.description.length === 0) {
+				errors.push('description');
+			}
+
+			if (errors.length) return errors;
+		},
 		
 		initialize: function (attributes, options) {
 			
