@@ -4,13 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity.Validation;
+
 
 using taskman.Models.beans;
 using taskman.Models.service;
 using taskman.Models.domain;
+using taskman.Models.exception;
 
 namespace taskman.Controllers
-{
+{	
     public class TaskController : ApiController
     {
 		public class FormattedTask {
@@ -56,6 +59,7 @@ namespace taskman.Controllers
 
         // POST endpoint/tasks/
 		[HttpPost]
+		[ValidationExceptionHandler]
 		public FormattedTask Post([FromBody] FormattedTask task)
 		{			
 			return new FormattedTask(serv.add(task));

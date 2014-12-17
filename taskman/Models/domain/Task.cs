@@ -12,8 +12,12 @@ namespace taskman.Models.domain
 		[Key]
 		public Int32 id { get; set; }
 
+		[Required]
 		public string description { get; set; }
+
+		[Required]
 		public DateTime deadline { get; set; }
+
 		public Boolean completed { get; set; }		
 	}
 }
