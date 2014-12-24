@@ -26,7 +26,11 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 		},
 		
 		initialize: function (attributes, options) {
-			
+			this.updateState();
+			this.on('change', function () { this.updateState(); });
+		},
+
+		updateState: function () {
 			var now = new Date(), nowMs = now.getTime(), 
 			deadlineMs = this.get('deadline'), 
 			deadlineDate = new Date(deadlineMs),
@@ -47,12 +51,13 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 				}
 			}
 		},
+
 		complete: function () {
 			this.sync(null, this, { 
 				url: this.url() + '/complete', 
 				type: 'post',
 				success: _.bind(this.set, this, {completed: true})
-			});
+			});			
 		}
 	});
 	

@@ -40,8 +40,7 @@ define(	['jquery', 'backbone', 'marionette', 'handlebars', 'jquery_ui',
 	});
 	
 	app.on("start", function () {					
-			
-		app.taskList.fetch();					
+		
 		app.tasksRegion.show(app.listView);
 		app.headerRegion.show(app.headerView);
 	});		

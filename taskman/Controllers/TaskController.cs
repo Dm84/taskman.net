@@ -69,7 +69,7 @@ namespace taskman.Controllers
 		public Object Complete(int id)
 		{
 			serv.complete(id);
-			return new {};
+			return new { completed = true };
 		}
     }
 }
