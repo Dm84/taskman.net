@@ -10,10 +10,11 @@ namespace taskman.Models.exception
 {
 	public class ValidationExceptionHandlerAttribute : ExceptionFilterAttribute
 	{
-		class ValidationResponse
+		class ErrorResponse
 		{
-			public string error;
-			public IEnumerable<DbEntityValidationResult> fields;
+			public string message;
+			public string type = "validation";
+			public Dictionary<string, string> fields;
 		}
 
 		public override void OnException(HttpActionExecutedContext context)
@@ -22,8 +23,17 @@ namespace taskman.Models.exception
 			{
 				DbEntityValidationException ex = context.Exception as DbEntityValidationException;
 
-				context.Response = context.Request.CreateResponse(
-					HttpStatusCode.InternalServerError, new ValidationResponse { error = ex.Message, fields = ex.EntityValidationErrors });
+				var fields = new Dictionary<string, string>();
+
+				foreach (DbEntityValidationResult result in ex.EntityValidationErrors) {					
+					foreach (DbValidationError error in result.ValidationErrors)
+					{
+						fields.Add(error.PropertyName, error.ErrorMessage);
+					}
+				}
+
+				Object response = new { error = new ErrorResponse { message = ex.Message, fields = fields } };
+				context.Response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, response);
 			}
 		}
 	}
