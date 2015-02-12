@@ -25,6 +25,17 @@ input {
 	position: relative; top: 0; left: 0;
 }
 
+.header-date {
+	position: absolute;
+	top: 96px;
+	left: 0;
+	width: 100%;
+
+	font-size: 16px;
+	color: #b8b8b8;
+	text-align: right;
+}
+
 .create-task-icon {
 	position: absolute; right: 30px; top: 27px;
 	width: 31px; height: 31px;
