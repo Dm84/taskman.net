@@ -1,19 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Frontend";
-	Html.Partial("Layout");
+	Layout = "~/Views/Frontend/Layout.cshtml";
+	ViewBag.Title = "Taskman";	
 }
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=2">
-	<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" />
+
+@section AddToHead {
 	<link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css" />
-	<script data-main="main" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.js"></script>
-	<title>Taskman</title>
-</head>
-<body>
+	
+}
 
 	<script type="text/x-handlerbars-template" id="task-item-template">
 		<div class="task-completed-icon">
@@ -73,6 +67,4 @@
 		</div>
 	</div>
 
-
-</body>
-</html>
+<script data-main="main" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.js"></script>
