@@ -219,6 +219,8 @@
     <Content Include="css\bootstrap-theme.css.map" />
     <Content Include="css\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\mywindowshosting.pubxml" />
+    <Content Include="Views\Frontend\Layout.cshtml" />
+    <Content Include="Views\Frontend\Login.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

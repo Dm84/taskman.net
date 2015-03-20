@@ -18,6 +18,13 @@ namespace taskman
 				url: "",
 				defaults: new { controller = "Frontend", action = "Index", id = UrlParameter.Optional }
 			);
+
+			routes.MapRoute(
+				name: "LoginForm",
+				url: "login",
+				defaults: new { controller = "Frontend", action = "Login", id = UrlParameter.Optional }
+			);
+
 		}
 	}
 }
