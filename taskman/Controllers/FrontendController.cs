@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace taskman.Controllers
 {
@@ -44,11 +45,21 @@ namespace taskman.Controllers
 			//ViewData["signin_url"] = Url.Action("Login");
 			//ViewData["login"] = "";
 
+			string username = this.Request.Params["username"], password = this.Request.Params["password"];
+
+			if (username != null)
+			{
+				if (Membership.ValidateUser(username, password))
+				{
+					FormsAuthentication.RedirectFromLoginPage(username, true);
+				}
+			}			
+
 			return View(new LoginModel { 
 				signin_url = Url.Action("Login"),
 				field_req_msg = "Обязательное поле",
 				login = "",
-				login_param = "login",
+				login_param = "username",
 				login_placeholder = "Ваш логин",
 				pwd_placeholder = "Ваш пароль",
 				pwd_confirm_placeholder = "Ваш пароль еще раз",
