@@ -7,7 +7,7 @@ using System.Web.Http;
 using System.Data.Entity.Validation;
 
 
-using taskman.Models.beans;
+using taskman.Models.configuration;
 using taskman.Models.service;
 using taskman.Models.domain;
 using taskman.Models.exception;
@@ -47,18 +47,18 @@ namespace taskman.Controllers
 			}
 		}
 
-		private TaskService serv;
+		private Container _container;
 
 		public TaskController()
 		{
-			serv = BeanFactory.createService();
+			_container = new Container();			
 		}
 
 		// GET endpoint/tasks/
 		[HttpGet]
 		public IEnumerable<FormattedTask> Get()
 		{
-			return serv.list().Select(delegate(Task src)
+			return _container.getService().list().Select(delegate(Task src)
 			{
 				return new FormattedTask(src);
 			});
@@ -69,13 +69,13 @@ namespace taskman.Controllers
 		[ValidationExceptionHandler]
 		public FormattedTask Post([FromBody] FormattedTask task)
 		{
-			return new FormattedTask(serv.add(task));
+			return new FormattedTask(_container.getService().add(task));
 		}
 
 		// POST endpoint/tasks/5/complete 
 		public Object Complete(int id)
 		{
-			serv.complete(id);
+			_container.getService().complete(id);
 			return new { completed = true };
 		}
 	}
