@@ -14,7 +14,7 @@ namespace taskman.Models.domain
 		[Required]
 		public string login { get; set; }
 
-		[Required]
+		[Required]		
 		public string password { get; set; }
 	}
 }

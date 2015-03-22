@@ -24,6 +24,8 @@ namespace taskman.Models.service
 		{	
 			_config = config;
 			_name = name;
+
+			base.Initialize(name, config);
 		}
 
 		public override string ApplicationName
@@ -47,7 +49,7 @@ namespace taskman.Models.service
 			string username, string password, string email, string passwordQuestion, string passwordAnswer, 
 			bool isApproved, object providerUserKey, out System.Web.Security.MembershipCreateStatus status)
 		{
-			using (var context = new UserContext())
+			using (var context = new TaskmanContext())
 			{
 				var user = new User { login = username, password = password };
 				context.UserSet.Add(user);
@@ -64,7 +66,7 @@ namespace taskman.Models.service
 
 		public override bool DeleteUser(string username, bool deleteAllRelatedData)
 		{
-			using (var context = new UserContext())
+			using (var context = new TaskmanContext())
 			{
 				context.UserSet.Remove(new User { login = username });
 			}
@@ -106,7 +108,7 @@ namespace taskman.Models.service
 		{
 			var collection = new UserCollection();
 
-			using (var context = new UserContext())
+			using (var context = new TaskmanContext())
 			{
 				IEnumerable<User> users = context.UserSet.
 					Skip(pageIndex * pageSize).Take(pageSize).AsEnumerable<User>();
@@ -136,7 +138,7 @@ namespace taskman.Models.service
 
 		public override System.Web.Security.MembershipUser GetUser(string username, bool userIsOnline)
 		{
-			using (var context = new UserContext())
+			using (var context = new TaskmanContext())
 			{
 				var user = (from User in context.UserSet where User.login == username select User).Single<User>();
 
@@ -148,7 +150,7 @@ namespace taskman.Models.service
 
 		public override System.Web.Security.MembershipUser GetUser(object providerUserKey, bool userIsOnline)
 		{
-			using (var context = new UserContext())
+			using (var context = new TaskmanContext())
 			{
 				var user = context.UserSet.Find(providerUserKey);
 
@@ -220,7 +222,11 @@ namespace taskman.Models.service
 
 		public override bool ValidateUser(string username, string password)
 		{
-			throw new NotImplementedException();
+			using (var context = new TaskmanContext())
+			{
+				var user = (from User in context.UserSet where User.login == username select User).Single();
+				return user.password == password;				
+			}			
 		}
 	}
 }

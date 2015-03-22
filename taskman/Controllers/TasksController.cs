@@ -14,7 +14,7 @@ namespace taskman.Controllers
 {
     public class TasksController : ApiController
     {
-        private TaskContext db = new TaskContext();
+        private TaskmanContext db = new TaskmanContext();
 
         // GET: api/Tasks
         public IQueryable<Task> GetTaskSet()

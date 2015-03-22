@@ -8,14 +8,15 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace taskman.Models.domain
 {
-	public class TaskContext : DbContext
+	public class TaskmanContext : DbContext
 	{
-		public TaskContext() : base("TaskConnection") 
+		public TaskmanContext() : base("TaskConnection") 
 		{
-			Database.SetInitializer<TaskContext>(new DropCreateDatabaseIfModelChanges<TaskContext>());
+			Database.SetInitializer<TaskmanContext>(new DropCreateDatabaseIfModelChanges<TaskmanContext>());
 		}
 
 		public DbSet<Task> TaskSet { get; set; }
+		public DbSet<User> UserSet { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
