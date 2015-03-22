@@ -95,6 +95,7 @@ input {
 	background: none;
 	border: none;
 	vertical-align: middle;
+	font-size: 33px;
 }
 
 .popup_task_search {	
@@ -259,6 +260,10 @@ input {
 
 @media screen and (max-width: 420px) {
 	.content {
+		font-size: 20px;
+	}
+
+	.search-input {
 		font-size: 20px;
 	}
 	
