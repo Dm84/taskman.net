@@ -7,7 +7,7 @@ requirejs(["app"], function(app) {
 });
 
 requirejs.config({
-	urlArgs: "bust=v2",
+	baseUrl: '/Content/',
 	paths: {
 		jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery',
 		jquery_ui: 'js/libs/jquery-ui',

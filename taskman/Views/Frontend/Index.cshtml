@@ -19,24 +19,34 @@
 	</script>
 
 	<script type="text/x-handlerbars-template" id="header-template">
-		<div class="create-task-icon"></div>
-		<div class="search-block">
-			<input type="text" class="search-input" />
-			<div class="popup popup_task_search" style="display: none">
-				<div class="task-list task-list_block_search">
+		<div class="header-bar">
+
+			<div class="search-block">
+				<div class="create-task-icon"></div>
+				<div class="search-input-bar">
+					<input type="text" class="search-input" />
+					<div class="popup popup_task_search" style="display: none">
+						<div class="popup-content">
+							<div class="task-list task-list_block_search"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="popup popup_task_create" style="display: none">
-			<div class="task-create-inputs">
-				<div class="task-completed-icon"></div>
-				<textarea class="task-create-inputs__desc task-create-input "></textarea>
-				<input type="text" class="task-create-inputs__date task-create-input" />
-				<button class="btn btn-default pull-right task-create-inputs__save">Сохранить</button>
-			</div>
-		</div>
+
 		<div class="header-date">
 			Сейчас {{dateFormat dateNow}}
+		</div>
+
+		<div class="popup popup_task_create" style="display: none">
+			<div class="popup-content">
+				<div class="task-create-inputs">
+					<div class="task-completed-icon"></div>
+					<textarea class="task-create-inputs__desc task-create-input "></textarea>
+					<input type="text" class="task-create-inputs__date task-create-input" />
+					<button class="btn btn-default pull-right task-create-inputs__save">Сохранить</button>
+				</div>
+			</div>
 		</div>
 	</script>
 
@@ -54,15 +64,13 @@
 	</script>
 
 	<div class="container">
-		<div class="row">
-			<div class="col-xs-12">
-				<div id="content" class="content">
-					<div class="header" id="header"></div>
-					<div id="task-list" class="task-list"></div>
-					<div class="chart-wrap">
-						<canvas id="myChart" class="chart"></canvas>
-					</div>
-				</div>
+		<div id="content" class="content">
+			<div class="header" id="header"></div>
+			<div id="task-list" class="task-list">
+				<div class="loader"></div>
+			</div>
+			<div class="chart-wrap">
+				<canvas id="myChart" class="chart"></canvas>
 			</div>
 		</div>
 	</div>
