@@ -2,7 +2,7 @@
 	excludesfile = .gitignore
 	
 [remote "github"]
-	url = https://github.com/Dm84/taskman.git
+	url = https://github.com/Dm84/taskman.net.git
 	excludesfile = +.githubignore
 	
 [branch "github"]
