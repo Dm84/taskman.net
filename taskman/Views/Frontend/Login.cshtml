@@ -22,17 +22,17 @@
 					<input type="text"
 						   class="form-control"
 						   value="@Model.login"
-						   name="@Model.login_param"
+						   name="@Model.login_input_name"
 						   placeholder="@Model.login_placeholder" />
 				</div>
 				<div class="form-group">
 					<input type="password"
 						   class="form-control"
-						   name="@Model.pwd_param"
+						   name="@Model.pwd_input_name"
 						   placeholder="@Model.pwd_placeholder" />
 				</div>
-				<button class="btn btn-primary"
-						type="submit">
+				<button class="btn btn-primary" type="submit" 
+						name="@Model.signin_btn_name" value="@Model.signin_btn_val">
 					@Model.signup_btn_caption
 				</button>
 			</form>
@@ -52,14 +52,14 @@
 					<input type="text"
 						   class="form-control"
 						   value="@Model.login"
-						   name="@Model.login_param"
+						   name="@Model.login_input_name"
 						   placeholder="@Model.login_placeholder" />
 				</div>
 				<div class="form-group">
 					<input id="password"
 						   type="password"
 						   class="form-control"
-						   name="@Model.pwd_placeholder"
+						   name="@Model.pwd_input_name"
 						   placeholder="@Model.pwd_placeholder" />
 				</div>
 				<div class="form-group">
@@ -69,7 +69,8 @@
 						   name="password_confirm"
 						   placeholder="@Model.pwd_confirm_placeholder" />
 				</div>
-				<button class="btn btn-primary" type="submit">
+				<button class="btn btn-primary" type="submit" 
+						name="@Model.signup_btn_name" value="@Model.signup_btn_val">
 					@Model.signup_btn_caption
 				</button>
 			</form>
