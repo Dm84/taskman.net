@@ -14,8 +14,8 @@ namespace taskman.Models.service
 {
 	public class MembershipProvider : System.Web.Security.MembershipProvider
 	{
-		const int MIN_PASS_LEN = 6;
-		const int MAX_PASS_ATTEMPTS = 8;
+		public const int MIN_PASS_LEN = 6;
+		public const int MAX_PASS_ATTEMPTS = 8;
 
 		NameValueCollection _config;
 		string _name, _app;
@@ -140,11 +140,19 @@ namespace taskman.Models.service
 		{
 			using (var context = new TaskmanContext())
 			{
-				var user = (from User in context.UserSet where User.login == username select User).Single<User>();
+				IEnumerable<User> users = (from User in context.UserSet where User.login == username select User).AsEnumerable<User>();
 
-				return new MembershipUser(_name, user.login,
-						user.id, "", "", "", true, true,
-						new DateTime(), new DateTime(), new DateTime(), new DateTime(), new DateTime());
+				if (users.Count() != 0) {
+					var user = users.Single();
+					return new MembershipUser(_name, user.login,
+							user.id, "", "", "", true, true,
+							new DateTime(), new DateTime(), new DateTime(), new DateTime(), new DateTime());
+
+				} else
+				{
+					return null;
+				}
+
 			}
 		}
 
@@ -224,8 +232,18 @@ namespace taskman.Models.service
 		{
 			using (var context = new TaskmanContext())
 			{
-				var user = (from User in context.UserSet where User.login == username select User).Single();
-				return user.password == password;				
+				IEnumerable<User> users = (from User in context.UserSet where User.login == username select User).AsEnumerable<User>();
+
+				if (users.Count() != 0)
+				{
+					var user = users.Single();
+					return user.password == password;				
+
+				}
+				else
+				{
+					return false;
+				}
 			}			
 		}
 	}

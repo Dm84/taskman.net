@@ -8,8 +8,18 @@ using System.Web.Routing;
 
 using System.Web.Security;
 
+using MvcFlash.Core;
+using MvcFlash.Core.Extensions;
+
+
 namespace taskman
 {
+	public class BadCredentialsException : Exception {}
+
+	public class UserAlreadyExistsExcetpion : Exception {}
+
+	public class BadCookiesException : Exception {}
+
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
@@ -21,7 +31,6 @@ namespace taskman
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
         }
 
 		class UserIdentity : System.Security.Principal.IIdentity
@@ -58,20 +67,19 @@ namespace taskman
 
 				args.Context.User = new System.Security.Principal.GenericPrincipal(
 				  new UserIdentity(ticket),
-				  new string[] { "user" });
+				  new string[] { ticket.UserData });
 			}
-			catch (Exception e)
+			catch
 			{
-				throw new HttpException("Invalid Cookie");
+				this.Application["error_msg"] = "Некорректные куки";
 			}
 		}
 
-		public void AuthByForm(FormsAuthenticationEventArgs args)
+		public void AuthByForm(FormsAuthenticationEventArgs args, string action)
 		{
-			string username = this.Request.Params["username"], password = this.Request.Params["password"],
-				action = this.Request.Params["action"];
+			string username = this.Request.Params["username"], password = this.Request.Params["password"];
 
-			if (username != null && action != null)
+			try
 			{
 				if (action == "signup")
 				{
@@ -80,15 +88,40 @@ namespace taskman
 
 				if (Membership.ValidateUser(username, password))
 				{
-
 					args.Context.User = new System.Security.Principal.GenericPrincipal(
-							  new System.Security.Principal.GenericIdentity(username, "formAuth"),
-							  new string[] { "user" });
+								new System.Security.Principal.GenericIdentity(username, "formAuth"),
+								new string[] { "user" });
 
-					FormsAuthentication.SetAuthCookie(username, false);
-					//FormsAuthentication.RedirectFromLoginPage(username, true);
+					var ticket = new FormsAuthenticationTicket(
+						1, username, new DateTime(), (new DateTime()).AddHours(100), true, "user");
+
+					HttpCookie cookie = new HttpCookie(
+						FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+
+					cookie.HttpOnly = true;
+					Response.Cookies.Add(cookie);
+					
+				} else
+				{
+					this.Application["error_msg"] = "Неверный логин или пароль";
+				}
+			}								
+			catch (Exception e) {
+
+				if (e is System.Data.Entity.Infrastructure.DbUpdateException)
+				{
+					this.Application["error_msg"] = "Пользователь с таким логином уже зарегистрирован";
+				} 
+				else if (e is MembershipCreateUserException)
+				{
+					this.Application["error_msg"] = "Некорректный логин или пароль";
+				}
+				else
+				{
+					this.Application["error_msg"] = "Неизвестная ошибка входа";
 				}
 			}
+			
 		}
 
 		public void FormsAuthentication_OnAuthenticate(object sender, FormsAuthenticationEventArgs args)
@@ -101,13 +134,16 @@ namespace taskman
 				}
 				else
 				{
-					AuthByForm(args);
+					string action = this.Request.Params["action"];
+					if (action == "signin" || action == "signup")
+					{
+						AuthByForm(args, action);
+					}
 				}
 			}
 			else
 			{
-				throw new HttpException("Cookieless Forms Authentication is not " +
-										"supported for this application.");
+				this.Application["error_msg"] = "Для входа браузер должен поддерживать куки";
 			}
 		}
 

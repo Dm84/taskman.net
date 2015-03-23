@@ -9,8 +9,6 @@ namespace taskman
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-			filters.Clear();
-            //filters.Add(new HandlerAttribute(), 0);
         }
     }
 }

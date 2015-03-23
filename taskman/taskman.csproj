@@ -51,6 +51,9 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcFlash.Core">
+      <HintPath>..\packages\MvcFlash.Core.2.0.1\lib\net40\MvcFlash.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -135,6 +138,10 @@
     <Compile Include="Migrations\201503220546151_test.cs" />
     <Compile Include="Migrations\201503220546151_test.Designer.cs">
       <DependentUpon>201503220546151_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503231652309_v1.cs" />
+    <Compile Include="Migrations\201503231652309_v1.Designer.cs">
+      <DependentUpon>201503231652309_v1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\configuration\Container.cs" />
@@ -229,13 +236,22 @@
   <ItemGroup>
     <Content Include="Content\css\bootstrap-theme.css.map" />
     <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\mywindowshosting.pubxml" />
     <Content Include="Views\Frontend\Layout.cshtml" />
     <Content Include="Views\Frontend\Login.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SimpleMessage.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MessageBase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503220546151_test.resx">
       <DependentUpon>201503220546151_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503231652309_v1.resx">
+      <DependentUpon>201503231652309_v1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
