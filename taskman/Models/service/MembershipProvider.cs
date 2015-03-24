@@ -55,8 +55,7 @@ namespace taskman.Models.service
 
 		private string EncodePassword(string password)
 		{
-			return System.Text.Encoding.UTF8.GetString(
-					EncryptPassword(System.Text.Encoding.UTF8.GetBytes(password)));
+			return Convert.ToBase64String(EncryptPassword(System.Text.Encoding.UTF8.GetBytes(password)));
 		}
 
 		public override System.Web.Security.MembershipUser CreateUser(
