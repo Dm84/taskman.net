@@ -17,7 +17,7 @@ namespace taskman.Models.domain
 		[MaxLength(64)]
 		public string login { get; set; }
 
-		[Required]		
+		[Required]
 		public string password { get; set; }
 	}
 }

@@ -107,13 +107,24 @@ namespace taskman
 			}								
 			catch (Exception e) {
 
-				if (e is System.Data.Entity.Infrastructure.DbUpdateException)
+				if (e is MembershipCreateUserException)
 				{
-					this.Application["error_msg"] = "Пользователь с таким логином уже зарегистрирован";
-				} 
-				else if (e is MembershipCreateUserException)
-				{
-					this.Application["error_msg"] = "Некорректный логин или пароль";
+					var cuException = e as MembershipCreateUserException;
+
+					switch (cuException.StatusCode)
+					{
+						case MembershipCreateStatus.DuplicateUserName:
+							this.Application["error_msg"] = "Пользователь с таким логином уже зарегистрирован";
+							break;
+						case MembershipCreateStatus.InvalidUserName:
+						case MembershipCreateStatus.InvalidPassword:
+							this.Application["error_msg"] = "Некорректный логин или пароль";
+							break;
+
+						default:
+							this.Application["error_msg"] = "Не удалось зарегистрировать с данным логином и паролем";
+							break;
+					}				
 				}
 				else
 				{

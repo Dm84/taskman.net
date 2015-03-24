@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Collections.Specialized;
+
 
 using taskman.Models.configuration;
 using taskman.Models.domain;
@@ -45,17 +47,37 @@ namespace taskman.Models.service
 			return false;
 		}
 
+		protected override byte[] EncryptPassword(byte[] password)
+		{
+			var alg = System.Security.Cryptography.SHA1.Create();
+			return alg.ComputeHash(password);
+		}
+
+		private string EncodePassword(string password)
+		{
+			return System.Text.Encoding.UTF8.GetString(
+					EncryptPassword(System.Text.Encoding.UTF8.GetBytes(password)));
+		}
+
 		public override System.Web.Security.MembershipUser CreateUser(
 			string username, string password, string email, string passwordQuestion, string passwordAnswer, 
 			bool isApproved, object providerUserKey, out System.Web.Security.MembershipCreateStatus status)
 		{
 			using (var context = new TaskmanContext())
 			{
-				var user = new User { login = username, password = password };
-				context.UserSet.Add(user);
-				context.SaveChanges();
+				var hash = EncodePassword(password);
+				var user = new User { login = username, password = hash };
 
-				status = System.Web.Security.MembershipCreateStatus.Success;
+				try
+				{
+					context.UserSet.Add(user);
+					context.SaveChanges();
+					status = System.Web.Security.MembershipCreateStatus.Success;
+
+				} catch (System.Data.Entity.Infrastructure.DbUpdateException e)
+				{
+					throw new MembershipCreateUserException(MembershipCreateStatus.DuplicateUserName);
+				}			
 
 				return new System.Web.Security.MembershipUser(
 					_name, username, user.id, email, passwordQuestion, "", isApproved, false,
@@ -69,6 +91,7 @@ namespace taskman.Models.service
 			using (var context = new TaskmanContext())
 			{
 				context.UserSet.Remove(new User { login = username });
+				context.SaveChanges();
 			}
 
 			return true;			
@@ -233,17 +256,7 @@ namespace taskman.Models.service
 			using (var context = new TaskmanContext())
 			{
 				IEnumerable<User> users = (from User in context.UserSet where User.login == username select User).AsEnumerable<User>();
-
-				if (users.Count() != 0)
-				{
-					var user = users.Single();
-					return user.password == password;				
-
-				}
-				else
-				{
-					return false;
-				}
+				return users.Count() != 0 && users.Single().password == EncodePassword(password);
 			}			
 		}
 	}
