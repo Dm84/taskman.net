@@ -43,7 +43,7 @@
 					</div>
 					<button class="btn btn-primary" type="submit"
 							name="@Model.signin_btn_name" value="@Model.signin_btn_val">
-						@Model.signup_btn_caption
+						@Model.signin_btn_caption
 					</button>
 				</form>
 			</div>
@@ -144,10 +144,10 @@
 
                 messages: {
 
-                    _username: {
+                    @Model.login_input_name : {
                         required: '@Model.field_req_msg'
                     },
-                    _password: {
+                    @Model.pwd_input_name : {
                         required: '@Model.field_req_msg'
                     }
 
