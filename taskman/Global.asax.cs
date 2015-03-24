@@ -99,8 +99,7 @@ namespace taskman
 						FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
 
 					cookie.HttpOnly = true;
-					Response.Cookies.Add(cookie);
-					
+					Response.Cookies.Add(cookie);					
 				} else
 				{
 					this.Application["error_msg"] = "Неверный логин или пароль";

@@ -147,7 +147,6 @@
     <Compile Include="Models\configuration\Container.cs" />
     <Compile Include="Models\dao\ITaskDao.cs" />
     <Compile Include="Models\dao\TaskDaoEF.cs" />
-    <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Models\domain\Task.cs" />
     <Compile Include="Models\domain\TaskmanContext.cs" />
     <Compile Include="Models\domain\User.cs" />

@@ -51,12 +51,24 @@ namespace taskman.Controllers
 
 		public ActionResult Login()
 		{
-			//ViewData["signin_url"] = Url.Action("Login");
-			//ViewData["login"] = "";
+			var login = "";			
+			if (this.Request.Params["username"] != null)
+			{
+				login = this.Request.Params["username"];				
+			}
 
-			var login = this.Request["username"];
-			string error = HttpContext.Application["error_msg"] as string;
-			HttpContext.Application.Remove("error_msg");
+			var signin_url = FormsAuthentication.GetRedirectUrl(login, false);
+			if (signin_url == null)
+			{
+				signin_url = FormsAuthentication.DefaultUrl;
+			}
+			
+			var error = "";			
+			if (HttpContext.Application["error_msg"] != null)
+			{
+				error = HttpContext.Application["error_msg"] as string;
+				HttpContext.Application.Remove("error_msg");
+			}
 
 			if (MvcFlash.Core.Flash.Instance.Count != 0)
 			{
@@ -66,7 +78,7 @@ namespace taskman.Controllers
 			uint pwd_len_req = taskman.Models.service.MembershipProvider.MIN_PASS_LEN;
 
 			return View(new LoginModel { 
-				signin_url = FormsAuthentication.GetRedirectUrl(login, false),
+				signin_url = signin_url,
 
 				field_req_msg = "Обязательное поле",
 				login = login,

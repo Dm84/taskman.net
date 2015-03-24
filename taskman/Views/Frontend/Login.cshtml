@@ -11,7 +11,7 @@
 
 <div class="container">
 
-	@if (!Model.error_msg.IsEmpty())
+	@if (Model.error_msg != null && !Model.error_msg.IsEmpty())
 	{
 		<div class="alert alert-danger" role="alert">
 			<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -57,7 +57,7 @@
 				</h1>
 			</div>
 			<div class="panel-body">
-				<form id="signup" class="form" role="form" method="post" action="@Model.signup_url">
+				<form id="signup" class="form" role="form" method="post" action="@Model.signin_url">
 					<div class="form-group">
 						<input type="text"
 							   class="form-control"
