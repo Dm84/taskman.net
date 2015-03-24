@@ -14,12 +14,6 @@ using MvcFlash.Core.Extensions;
 
 namespace taskman
 {
-	public class BadCredentialsException : Exception {}
-
-	public class UserAlreadyExistsExcetpion : Exception {}
-
-	public class BadCookiesException : Exception {}
-
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
