@@ -186,6 +186,7 @@
     <Content Include="Content\css\jquery-ui.theme.min.css" />
     <Content Include="Content\css\loader.gif" />
     <Content Include="Content\css\styles.css" />
+    <Content Include="Content\images\loader.gif" />
     <Content Include="Content\js\libs\jquery.form.js" />
     <Content Include="Content\js\libs\jquery.validate.js" />
     <Content Include="Global.asax" />

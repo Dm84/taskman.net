@@ -6,7 +6,6 @@ taskman/Properties/
 taskman/Web.Release.config
 taskman.Tests/App.config
 
-
 # User-specific files
 *.suo
 *.user
