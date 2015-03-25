@@ -30,7 +30,7 @@ namespace taskman.Controllers
 			public string	pwd_confirm_req_msg;
 			public string	pwd_len_req_msg;
 
-			public uint pwd_min_len;
+			public int pwd_min_len;
 
 			public string	field_req_msg;
 			public string	signup_header;
@@ -75,8 +75,6 @@ namespace taskman.Controllers
 				error = MvcFlash.Core.Flash.Instance.Pop().Content;
 			}
 
-			uint pwd_len_req = taskman.Models.service.MembershipProvider.MIN_PASS_LEN;
-
 			return View(new LoginModel { 
 				signin_url = signin_url,
 
@@ -87,8 +85,8 @@ namespace taskman.Controllers
 				pwd_placeholder = "Ваш пароль",
 				pwd_confirm_placeholder = "Ваш пароль еще раз",
 				pwd_confirm_req_msg = "Пароли должны совпадать",
-				pwd_min_len = pwd_len_req,
-				pwd_len_req_msg = "Длина пароля должна быть не менее " + pwd_len_req.ToString() + " символов",
+				pwd_min_len = Membership.MinRequiredPasswordLength,
+				pwd_len_req_msg = "Длина пароля должна быть не менее " + Membership.MinRequiredPasswordLength.ToString() + " символов",
 				pwd_input_name = "password",
 				signin_btn_caption = "Войти",
 				signup_btn_caption = "Зарегистрироваться",

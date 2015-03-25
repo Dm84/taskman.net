@@ -16,8 +16,9 @@ namespace taskman.Models.service
 {
 	public class MembershipProvider : System.Web.Security.MembershipProvider
 	{
-		public const int MIN_PASS_LEN = 6;
-		public const int MAX_PASS_ATTEMPTS = 8;
+		public int min_pass_len = 6;
+		public int max_pass_attempts = 8;
+		public int min_spec_symbols = 0;
 
 		NameValueCollection _config;
 		string _name, _app;
@@ -26,6 +27,9 @@ namespace taskman.Models.service
 		{	
 			_config = config;
 			_name = name;
+
+			min_pass_len = config["minRequiredPasswordLength"] == null ? min_pass_len : Convert.ToInt32(config["minRequiredPasswordLength"]);
+			max_pass_attempts = config["maxInvalidPasswordAttempts"] == null ? max_pass_attempts : Convert.ToInt32(config["maxInvalidPasswordAttempts"]);
 
 			base.Initialize(name, config);
 		}
@@ -197,17 +201,17 @@ namespace taskman.Models.service
 
 		public override int MaxInvalidPasswordAttempts
 		{
-			get { return MAX_PASS_ATTEMPTS; }
+			get { return max_pass_attempts; }
 		}
 
 		public override int MinRequiredNonAlphanumericCharacters
 		{
-			get { return MIN_PASS_LEN; }
+			get { return min_spec_symbols; }
 		}
 
 		public override int MinRequiredPasswordLength
 		{
-			get { return MIN_PASS_LEN; }
+			get { return min_pass_len; }
 		}
 
 		public override int PasswordAttemptWindow
