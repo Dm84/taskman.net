@@ -15,8 +15,9 @@
 	padding: 16px;
 }
 
-input {
+input, textarea {
 	outline: none;
+	font: inherit;
 }
 
 .content { 
@@ -123,17 +124,22 @@ input {
 
 .task-create-inputs {
 	position: relative; top: 0; left: 0;
-	padding-left: 50px;	
+	padding-left: 50px;
 }
 
-.task-create-input {
-	border: 1px solid #b8b8b8;
-	display: block;
-	width: 100%;
+.task-create-input, .task-create-input:focus {
+	outline: 1px solid #b8b8b8;
+	outline-offset: -1px;
+	display: inline-block;
+	width: 95%;
+	padding: 0 5px;
+	resize: none;
+	border: none;
 }
+
 
 .task-create-input.invalid {
-	border: 1px solid #AC2925;
+	outline: 1px solid #AC2925 ;
 }
 
 .task-create-inputs__desc {
