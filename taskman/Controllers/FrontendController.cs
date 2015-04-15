@@ -49,21 +49,9 @@ namespace taskman.Controllers
 			public string error_msg;
 		}
 
-		public ActionResult Login()
+		private string GetFlashError()
 		{
-			var login = "";			
-			if (this.Request.Params["username"] != null)
-			{
-				login = this.Request.Params["username"];				
-			}
-
-			var signin_url = FormsAuthentication.GetRedirectUrl(login, false);
-			if (signin_url == null)
-			{
-				signin_url = FormsAuthentication.DefaultUrl;
-			}
-			
-			var error = "";			
+			var error = "";
 			if (HttpContext.Application["error_msg"] != null)
 			{
 				error = HttpContext.Application["error_msg"] as string;
@@ -75,9 +63,18 @@ namespace taskman.Controllers
 				error = MvcFlash.Core.Flash.Instance.Pop().Content;
 			}
 
+			return error;
+		}
+
+		public ActionResult Login()
+		{
+			string login = this.Request.Params["username"] != null ? this.Request.Params["username"] : "";
+
+			var signin_url = FormsAuthentication.GetRedirectUrl(login, false);
+			signin_url = signin_url == null ? FormsAuthentication.DefaultUrl : signin_url;			
+
 			return View(new LoginModel { 
 				signin_url = signin_url,
-
 				field_req_msg = "Обязательное поле",
 				login = login,
 				login_input_name = "username",
@@ -96,7 +93,7 @@ namespace taskman.Controllers
 				signup_btn_name = "action",
 				signin_btn_val = "signin",
 				signup_btn_val = "signup",
-				error_msg = error	
+				error_msg = GetFlashError()
 			});
 		}
 

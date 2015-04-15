@@ -139,7 +139,9 @@ namespace taskman
 				else
 				{
 					string action = this.Request.Params["action"];
-					if (action == "signin" || action == "signup")
+					string username = this.Request.Params["username"];
+
+					if (username != null && username.Count() > 0)
 					{
 						AuthByForm(args, action);
 					}
