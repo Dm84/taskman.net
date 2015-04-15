@@ -54,21 +54,6 @@ namespace taskman.Controllers
 			_container = new Container();			
 		}
 
-		//private delegate T ServiceDeleagate<T>(TaskService service);
-
-		//private T RunWithService<T>(ServiceDeleagate<T> f)
-		//{
-		//	var userId = Membership.GetUser().ProviderUserKey as int?;
-
-		//	if (userId != null)
-		//	{
-		//		return f(_container.getService(userId.Value));
-		//	} else
-		//	{
-		//		throw new InvalidOperationException();
-		//	}
-		//}
-
 		private TaskService GetTaskService() {
 
 			var userId = Membership.GetUser().ProviderUserKey as int?;

@@ -54,6 +54,11 @@ namespace taskman.Models.dao
 			}		
 		}
 
+		class InvalidUserIdException : Exception
+		{
+
+		}
+
 		public Task complete(int id, int userId)
 		{
 			using (var context = new TaskmanContext())
@@ -64,6 +69,10 @@ namespace taskman.Models.dao
 				{
 					task.completed = true;
 					context.SaveChanges();
+				} 
+				else
+				{
+					throw new InvalidUserIdException();
 				}
 
 				return task;
