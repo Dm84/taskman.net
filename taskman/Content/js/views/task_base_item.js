@@ -15,7 +15,8 @@ define(['jquery', 'marionette'], function ($, Marionette) {
 				case 'today': $dateEl.addClass('task-date_status_todo'); break;
 				case 'todo': $dateEl.addClass('task-date_status_future'); break;
 			}			
-		}
+		},
+
 	});
 	
 	return TaskItemView;	

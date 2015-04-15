@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using taskman.Controllers;
 using taskman.Models.domain;
 
-using InputTask = taskman.Controllers.TaskController.FormattedTask;
+using InputTask = taskman.Controllers.TaskController.FrontendTask;
 
 namespace taskman.Tests
 {

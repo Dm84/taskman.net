@@ -69,10 +69,17 @@ namespace taskman.Models.service
 			using (var context = new TaskmanContext())
 			{
 				var hash = EncodePassword(password);
-				var user = new User { login = username, password = hash };
+				var user = new User { login = username.ToLower(), password = hash };
 
 				try
 				{
+					var regex = new System.Text.RegularExpressions.Regex("[a-z,0-9]+");
+					
+					if (!regex.IsMatch(user.login))
+					{
+						throw new MembershipCreateUserException(MembershipCreateStatus.InvalidUserName);
+					}
+
 					context.UserSet.Add(user);
 					context.SaveChanges();
 					status = System.Web.Security.MembershipCreateStatus.Success;

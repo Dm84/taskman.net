@@ -38,7 +38,7 @@ namespace taskman
 
 			public string AuthenticationType
 			{
-				get { return "FormAuthentiocation"; }
+				get { return "FormAuthentication"; }
 			}
 
 			public bool IsAuthenticated
@@ -52,6 +52,20 @@ namespace taskman
 			}
 		}
 
+		private void Auth(HttpContext context, FormsAuthenticationTicket ticket)
+		{
+			string[] userdata = ticket.UserData.Split(',');
+
+			context.User = new System.Security.Principal.GenericPrincipal(
+			  new UserIdentity(ticket),
+			  new string[] { userdata[0] });
+
+			//args.Context.User = new System.Security.Principal.GenericPrincipal(
+			//			new System.Security.Principal.GenericIdentity(username, "formAuth"),
+			//			new string[] { "user" });
+
+		}
+
 		private void AuthByCookies(FormsAuthenticationEventArgs args)
 		{
 			try
@@ -59,13 +73,34 @@ namespace taskman
 				FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(
 				  Request.Cookies[FormsAuthentication.FormsCookieName].Value);
 
-				args.Context.User = new System.Security.Principal.GenericPrincipal(
-				  new UserIdentity(ticket),
-				  new string[] { ticket.UserData });
+				Auth(args.Context, ticket);
 			}
 			catch
 			{
 				this.Application["error_msg"] = "Некорректные куки";
+			}
+		}
+
+		private void ValidateUser(FormsAuthenticationEventArgs args, string username, string password)
+		{
+			if (Membership.ValidateUser(username, password))
+			{
+				MembershipUser user = Membership.GetUser(username);
+
+				var ticket = new FormsAuthenticationTicket(1, username, new DateTime(), 
+					(new DateTime()).AddHours(100), true, "user," + user.ProviderUserKey.ToString());
+
+				Auth(args.Context, ticket);
+
+				HttpCookie cookie = new HttpCookie(
+					FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+
+				cookie.HttpOnly = true;
+				Response.Cookies.Add(cookie);
+			}
+			else
+			{
+				this.Application["error_msg"] = "Неверный логин или пароль";
 			}
 		}
 
@@ -80,24 +115,7 @@ namespace taskman
 					Membership.CreateUser(username, password);
 				}
 
-				if (Membership.ValidateUser(username, password))
-				{
-					args.Context.User = new System.Security.Principal.GenericPrincipal(
-								new System.Security.Principal.GenericIdentity(username, "formAuth"),
-								new string[] { "user" });
-
-					var ticket = new FormsAuthenticationTicket(
-						1, username, new DateTime(), (new DateTime()).AddHours(100), true, "user");
-
-					HttpCookie cookie = new HttpCookie(
-						FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-
-					cookie.HttpOnly = true;
-					Response.Cookies.Add(cookie);					
-				} else
-				{
-					this.Application["error_msg"] = "Неверный логин или пароль";
-				}
+				ValidateUser(args, username, password);
 			}								
 			catch (Exception e) {
 

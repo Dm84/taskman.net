@@ -11,25 +11,28 @@ namespace taskman.Models.service
 	public class TaskService
 	{
 		private ITaskDao dao;
+		private int userId;
 
-		public TaskService(ITaskDao taskDao)
+		public TaskService(ITaskDao taskDao, int userId)
 		{
-			dao = taskDao;
+			this.dao = taskDao;
+			this.userId = userId; 
 		}
 
 		public IEnumerable<Task> list()
 		{
-			return dao.list();
+			return dao.list(userId);
 		}
 
 		public Task add(Task task)
 		{
+			task.user_id = userId;
 			return dao.add(task);
 		}
 
 		public void complete(int id)
 		{
-			dao.complete(id);
+			dao.complete(id, userId);
 		}
 	}
 }

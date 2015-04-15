@@ -143,6 +143,10 @@
     <Compile Include="Migrations\201503231652309_v1.Designer.cs">
       <DependentUpon>201503231652309_v1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504150836579_user_support.cs" />
+    <Compile Include="Migrations\201504150836579_user_support.Designer.cs">
+      <DependentUpon>201504150836579_user_support.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\configuration\Container.cs" />
     <Compile Include="Models\dao\ITaskDao.cs" />
@@ -205,10 +209,10 @@
     <Content Include="Content\js\libs\mustache.js" />
     <Content Include="Content\js\models\task.js" />
     <Content Include="Content\js\views\header.js" />
-    <Content Include="Content\js\views\task.js" />
+    <Content Include="Content\js\views\task_base_item.js" />
     <Content Include="Content\js\views\task_list.js" />
-    <Content Include="Content\js\views\task_main.js" />
-    <Content Include="Content\js\views\task_search.js" />
+    <Content Include="Content\js\views\task_main_item.js" />
+    <Content Include="Content\js\views\task_search_item.js" />
     <Content Include="main.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -252,6 +256,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503231652309_v1.resx">
       <DependentUpon>201503231652309_v1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504150836579_user_support.resx">
+      <DependentUpon>201504150836579_user_support.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

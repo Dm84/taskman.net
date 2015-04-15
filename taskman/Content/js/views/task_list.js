@@ -1,13 +1,25 @@
-define(['marionette', 'js/views/task_main', 'chart'], function (Marionette, MainTaskItemView, Chart) {
+define(['marionette', 'js/views/task_main_item', 'chart'], function (Marionette, MainTaskItemView, Chart) {
 	
 	var TaskListView = Marionette.CollectionView.extend({
 		childView: MainTaskItemView,
 		emptyView: Marionette.ItemView.extend({ 
-			template: _.template('<div class="loader"></div>')
+			template: _.template('<div>Пока нет задач</div>')
 		}),
 
 		initialize: function() {
 			this.listenTo(this.collection, 'change sync', this.drawChart);
+
+			this.collection.bind("request", this.onRequest, this);
+			this.collection.bind("sync", this.onSync, this);
+			this.collection.fetch();
+		},
+
+		onRequest: function () {
+			this.$el.prepend('<div class="loader list-loader"></div>');
+		},
+
+		onSync: function () {
+			this.$el.find('.list-loader').remove();
 		},
 
 		drawChart: function () {
@@ -68,12 +80,7 @@ define(['marionette', 'js/views/task_main', 'chart'], function (Marionette, Main
 		},
 
 		onRender: function () {
-
-			if (this.collection.size() == 0) {
-	
-			} else {		
-				this.drawChart();
-			}
+			if (this.collection.size() != 0) this.drawChart();
 		}	
 	});
 	

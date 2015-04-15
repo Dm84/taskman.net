@@ -1,4 +1,4 @@
-define(['js/views/task'], function (TaskItemView) {
+define(['js/views/task_base_item'], function (TaskItemView) {
 	
 	var SearchTaskItemView = TaskItemView.extend({
 		template: '#search-task-template',

@@ -1,4 +1,4 @@
-define(	['jquery', 'marionette', 'backbone', 'js/views/task_search', 'js/models/task'], 
+define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/models/task'], 
 		function ($, Marionette, Backbone, SearchTaskItemView, TaskModel) 
 {	
 	var HeaderView = Marionette.CompositeView.extend({

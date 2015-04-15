@@ -13,6 +13,9 @@ namespace taskman.Models.domain
 		public Int32 id { get; set; }
 
 		[Required]
+		public Int32 user_id { get; set; }
+
+		[Required]
 		public string description { get; set; }
 
 		[Required]

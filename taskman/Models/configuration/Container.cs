@@ -15,12 +15,12 @@ namespace taskman.Models.configuration
 
 		public ITaskDao getDao()
 		{
-			return _dao == null ? _dao = new TaskDaoEF() : _dao;
+			return _dao == null ? _dao = new TaskDaoEf() : _dao;
 		}
 
-		public TaskService getService()
+		public TaskService getService(int userId)
 		{
-			return _serv == null ? _serv = new TaskService(getDao()) : _serv;
+			return _serv == null ? _serv = new TaskService(getDao(), userId) : _serv;
 		}
 	}
 }
