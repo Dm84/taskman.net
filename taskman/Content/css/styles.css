@@ -134,6 +134,11 @@ input, textarea {
 	padding-left: 50px;
 }
 
+.task-create-inputs__save.btn-danger {
+	outline: 1px solid #AC2925;
+}
+
+
 .task-create-input, .task-create-input:focus {
 	outline: 1px solid #b8b8b8;
 	outline-offset: -1px;

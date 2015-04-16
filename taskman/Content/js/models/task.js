@@ -5,7 +5,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 		state: 'todo',
 
 		defaults: {
-			description: '',
+			description: 'Задача',
 			deadline: (new Date()).getTime(),
 			completed: false,
 		},	
@@ -14,7 +14,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 
 			var errors = [];
 
-			if (typeof attrs.deadline !== 'number' || attrs.deadline < (new Date()).getTime()) {
+			if (typeof attrs.deadline !== 'number' || !isFinite(attrs.deadline) || attrs.deadline < (new Date()).getTime()) {
 				errors.push('deadline');
 			}
 

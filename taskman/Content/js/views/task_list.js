@@ -3,18 +3,24 @@ define(['marionette', 'js/views/task_main_item', 'chart'], function (Marionette,
 	var TaskListView = Marionette.CollectionView.extend({
 		childView: MainTaskItemView,
 		emptyView: Marionette.ItemView.extend({ 
-			template: _.template('<div>Пока нет задач</div>')
+			template: _.template('<div>Пока задач нет</div>')
 		}),
 
 		initialize: function() {
 			this.listenTo(this.collection, 'change sync', this.drawChart);
 
-			this.collection.bind("request", this.onRequest, this);
-			this.collection.bind("sync", this.onSync, this);
+
+			this.listenTo(this.collection, 'request', this.onRequest);
+			this.listenTo(this.collection, 'sync', this.onSync);
+
+			//this.collection.bind("request", this.onRequest, this);
+			//this.collection.bind("sync", this.onSync, this);
 			this.collection.fetch();
 		},
 
-		onRequest: function () {
+		onRequest: function () {			
+
+			//console.log('collection request');
 			this.$el.prepend('<div class="loader list-loader"></div>');
 		},
 

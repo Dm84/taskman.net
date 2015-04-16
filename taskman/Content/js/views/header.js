@@ -1,9 +1,10 @@
 define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/models/task'], 
 		function ($, Marionette, Backbone, SearchTaskItemView, TaskModel) 
 {	
-	var HeaderView = Marionette.CompositeView.extend({
+	return Marionette.CompositeView.extend({
 		template: '#header-template',
 
+		//header template model
 		model: new Backbone.Model({dateNow: (new Date).getTime()}),
 
 		childView: SearchTaskItemView,
@@ -14,7 +15,11 @@ define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/mo
 			if (typeof options.mainCollection !== 'undefined') {
 				this.mainCollection = options.mainCollection;
 			}
+
+			//this.listenTo(this.collection)
 		},
+
+
 		onRender: function () {				
 			this.ui.date_input.datepicker({
 				dateFormat: "dd.mm.yy 12:00"
@@ -43,6 +48,7 @@ define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/mo
 		},
 		
 		events: {
+
 			"keyup @ui.entry": function (e) {
 				
 				var query = $(e.target).val();
@@ -59,9 +65,12 @@ define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/mo
 				this.collection.reset();
 				this.collection.set(filtered);
 				
-				if (this.collection.size() > 0) { 
-					this.ui.popup_search.fadeIn(); }
-				else {
+				if (this.collection.size() > 0)
+				{
+					this.ui.popup_search.fadeIn();
+				}
+				else
+				{
 					this.ui.popup_search.fadeOut();	
 				}
 			},
@@ -69,15 +78,15 @@ define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/mo
 				this.ui.popup_search.fadeOut();
 			},
 			"click @ui.button_add_task": function (e) {
-				this.popup_toggle();
+				this.togglePopup();
 			},
 			"focus @ui.desc_input, @ui.date_input": function (e) {
 				this.ui.save_input.removeClass(this.ui_class.btn_danger);
 				$(e.target).removeClass('invalid');
 			},
-			"click @ui.completed_icon": function (e) {
-				this.ui.completed_icon.toggleClass(this.ui_class.completed_checked);
-			},				
+			//"click @ui.completed_icon": function (e) {
+			//	this.ui.completed_icon.toggleClass(this.ui_class.completed_checked);
+			//},				
 			"click @ui.save_input": function (e) {
 
 				var deadline = new Date();
@@ -93,56 +102,82 @@ define(	['jquery', 'marionette', 'backbone', 'js/views/task_search_item', 'js/mo
 						year = parseInt(date[2], 10),
 						hours = parseInt(time[0], 10), 
 						minutes = parseInt(time[1], 10),
-						deadline = new Date(year, month, day, hours, minutes, 0, 0);				
-																						
+						deadline = new Date(year, month, day, hours, minutes, 0, 0);
+
+						//валидация модели
+						var model = new TaskModel();
+						this.listenTo(model, 'invalid', this.invalidFields);
+
+						var setResult = model.set({
+							description: this.ui.desc_input.val(),
+							deadline: deadline.getTime(),
+							completed: this.ui.completed_icon.hasClass(this.ui_class.completed_checked)
+						}, { validate: true });
+						
+						if (setResult)
+						{
+							this.mainCollection.create({
+								description: this.ui.desc_input.val(),
+								deadline: deadline.getTime(),
+								completed: this.ui.completed_icon.hasClass(this.ui_class.completed_checked)
+							},
+							{
+								beforeSend: _.bind(function () { this.mainCollection.trigger('request'); }, this),
+								complete: _.bind(function () { this.mainCollection.trigger('sync'); }, this),
+								error: _.bind(this.onCreateError, this),
+								url: this.mainCollection.url,
+								wait: true
+							});
+
+							this.togglePopup();
+						}						
+
 				} catch (exception) {
-					this.bad_deadline();
+					this.highlightDeadline();
 				}
-				
-				var model = new TaskModel({
-					description: this.ui.desc_input.val(),
-					deadline: deadline.getTime(),
-					completed: this.ui.completed_icon.hasClass(this.ui_class.completed_checked)
-				});
-
-				this.listenToOnce(model, 'invalid', _.bind(this.bad_create, this));
-
-				this.mainCollection.create(model, {
-					wait: true,
-					error: _.bind(this.bad_create, this),
-					success: _.bind(this.popup_toggle, this),
-					url: this.mainCollection.url
-				});
 			}				
 		},
+
+		//ошибка валидации на стороне клиента
+		invalidFields: function (model, error, options) {
+			this.highlightErrors(error);
+		},
 		
-		popup_toggle: function () {
+		togglePopup: function () {
 			this.ui.popup_create.toggle(500);
 		},
-		
-		bad_create: function (model, response) {	
 
-			this.ui.save_input.addClass(this.ui_class.btn_danger);
-
-			for (field in response)
+		highlightErrors: function(errors) 
+		{			
+			for (field in errors)
 			{
-				switch (response[field])
+				switch (errors[field])
 				{
-					case 'deadline': this.bad_deadline(); break;
-					case 'description': this.bad_description(); break;
+					case 'deadline': this.highlightDeadline(); break;
+					case 'description': this.highlightDescription(); break;
 				}
 			}
-
 		},
-		bad_deadline: function () {
+
+		//ошибка на стороне сервера		
+		onCreateError: function (model, response) {	
+
+			this.collection.remove(model);
+			$('.loader').remove();
+
+			this.ui.popup_create.show(500);
+			this.ui.save_input.addClass(this.ui_class.btn_danger);
+
+			this.highlightErrors(response);
+		},
+
+		highlightDeadline: function () {
 			this.ui.date_input.addClass(this.ui_class.invalid);
 		},
-		bad_description: function () {
+		highlightDescription: function () {
 			this.ui.desc_input.addClass(this.ui_class.invalid);
 		}
 
 
 	});
-	
-	return HeaderView;
 });
